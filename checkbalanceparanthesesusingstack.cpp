@@ -1,68 +1,63 @@
-#include <iostream>
 #include<bits/stdc++.h>
 using namespace std;
-char top=-1;
-bool checkbalanceparantheses(string s)
+bool checkbalance(string s)
 {
-    stack<char>a;
     int n=s.length();
+    stack<char>st;
+    int f1=1;
     for(int i=0;i<n;i++)
     {
-        if(s[i]=='(' || s[i]=='[' || s[i]=='{')
+        if(s[i]=='[' || s[i]=='{' || s[i]=='(')
         {
-            a.push(s[i]);
-            top=s[i];
-            //cout<<top<<endl;
-        }
-        else if(s[i]==')')
-        {
-            if(a.empty() || top!='(')
-            {
-                return false;
-            }
-            else
-            {
-                a.pop();
-            }
+            st.push(s[i]);
         }
         else if(s[i]==']')
         {
-            if(a.empty() || top!='[')
+            if(st.empty() || st.top()!='[')
             {
-                return false;
+                f1=0;
             }
             else
             {
-                a.pop();
+                //st.top()
+                st.pop();
+            }
+        }
+        else if(s[i]==')')
+        {
+            if(st.empty() || st.top()!='(')
+            {
+                f1=0;
+            }
+            else
+            {
+                st.pop();
             }
         }
         else if(s[i]=='}')
         {
-            if(a.empty() || top!='{')
+            if(st.empty() || st.top()!='{')
             {
-                return false;
+                f1=0;
             }
             else
             {
-                a.pop();
+                st.pop();
             }
         }
     }
-    return a.empty()?true:false;
-    /*
-    if(a.empty())
+    if(st.size()!=0 || f1==0)
     {
-      return true;
+        return false;
     }
     else
     {
-       return false;
-    }*/
+        return true;
+    }
 }
-
-int main() 
+int main()
 {
-    string s;
-    cin>>s;
-    cout<<checkbalanceparantheses(s);
+   string s;
+   cin>>s;
+   cout<<checkbalance(s);
 }
